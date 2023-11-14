@@ -1,0 +1,66 @@
+class HumanBlood:
+    """
+    A class to represent human blood, including its major components and characteristics.
+    """
+
+    def __init__(self, red_cells, white_cells, platelets, plasma_volume, dissolved_substances):
+        """
+        Initializes the HumanBlood object with given values for blood components.
+        Includes validation to ensure the values are within physiological ranges.
+        """
+        self.set_red_cells(red_cells)
+        self.set_white_cells(white_cells)
+        self.set_platelets(platelets)
+        self.set_plasma_volume(plasma_volume)
+        self.dissolved_substances = dissolved_substances  # dictionary of substances and concentrations
+
+    def set_red_cells(self, count):
+        """Sets the red cell count ensuring it's within a realistic range."""
+        self.red_cells = max(0, min(count, 6_000_000))  # max limit set for simplification
+
+    def set_white_cells(self, count):
+        """Sets the white cell count ensuring it's within a realistic range."""
+        self.white_cells = max(0, min(count, 11_000))  # max limit set for simplification
+
+    def set_platelets(self, count):
+        """Sets the platelet count ensuring it's within a realistic range."""
+        self.platelets = max(0, min(count, 450_000))  # max limit set for simplification
+
+    def set_plasma_volume(self, volume):
+        """Sets the plasma volume ensuring it's within a realistic range."""
+        self.plasma_volume = max(0, min(volume, 3000))  # assuming 3 liters as max
+
+    def add_dissolved_substance(self, substance, concentration):
+        """Adds or updates a dissolved substance in the blood."""
+        self.dissolved_substances[substance] = concentration
+
+    def remove_dissolved_substance(self, substance):
+        """Removes a dissolved substance from the blood, if present."""
+        self.dissolved_substances.pop(substance, None)
+
+    def calculate_oxygen_capacity(self):
+        """Calculates the oxygen-carrying capacity of the blood."""
+        return self.red_cells * 1.34  # Oxygen capacity per red cell (in mL O2)
+
+    def simulate_immune_response(self):
+        """Simulates a basic immune response."""
+        return "Activating immune response" if self.white_cells > 5000 else "Immune response compromised"
+
+    def complete_blood_count(self):
+        """Returns a dictionary with a complete blood count."""
+        return {
+            "Red Cells": self.red_cells,
+            "White Cells": self.white_cells,
+            "Platelets": self.platelets,
+            "Plasma Volume": self.plasma_volume,
+            "Dissolved Substances": self.dissolved_substances
+        }
+
+    def __str__(self):
+        """Returns a string representation of the blood sample."""
+        return (f"Human Blood - RBC: {self.red_cells}, WBC: {self.white_cells}, "
+                f"Platelets: {self.platelets}, Plasma Volume: {self.plasma_volume} mL")
+
+# Example Usage
+blood_sample = HumanBlood(5000000, 7000, 300000, 55, {"Glucose": 0.1, "Hormones": 0.05})
+print(blood_sample)
